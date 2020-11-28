@@ -32,6 +32,8 @@ namespace Clinic
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IPatientRepository, PatientRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(typeof(MappingProflie).Assembly);
 

@@ -15,5 +15,6 @@ namespace Clinic.Persistents
         }
 
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

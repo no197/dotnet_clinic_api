@@ -16,8 +16,11 @@ namespace Clinic.Mapping
             CreateMap(typeof(QueryResult<>), typeof(QueryResultDto<>));
             CreateMap<Patient, PatientDto>();
 
+            CreateMap<Employee, EmployeeDto>();
+
             //Create<DTO, Entity>
             CreateMap<PatientDto, Patient>();
+            CreateMap<EmployeeDto, Employee>();
         }
     }
 }
