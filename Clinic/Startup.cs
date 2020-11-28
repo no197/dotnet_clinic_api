@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Clinic.Mapping;
 using Clinic.Core;
+using Clinic.Middleware;
 
 namespace Clinic
 {
@@ -46,6 +47,8 @@ namespace Clinic
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 
