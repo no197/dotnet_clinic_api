@@ -1,4 +1,5 @@
 ﻿using Clinic.Models;
+using Clinic.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,9 @@ namespace Clinic.Persistents
 
         }
 
+
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeAccount> EmployeeAcounts { get; set; }
     }
 }

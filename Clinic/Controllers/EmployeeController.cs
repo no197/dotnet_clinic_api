@@ -71,7 +71,7 @@ namespace Clinic.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVehicle(int id, EmployeeDto employeeDto)
+        public async Task<IActionResult> UpdateEmployee(int id, EmployeeDto employeeDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

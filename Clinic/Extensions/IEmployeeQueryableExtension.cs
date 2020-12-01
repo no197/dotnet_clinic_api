@@ -12,7 +12,7 @@ namespace Clinic.Extensions
         public static IQueryable<Employee> ApplyFiltering(this IQueryable<Employee> query, EmployeeQuery queryObj)
         {
             if (!String.IsNullOrEmpty(queryObj.Name))
-                query = query.Where(Employee => Employee.Name.Contains(queryObj.Name));
+                query = query.Where(Employee => Employee.FullName.Contains(queryObj.Name));
 
             if (!String.IsNullOrEmpty(queryObj.Position))
                 query = query.Where(Employee => Employee.Position.Contains(queryObj.Position));

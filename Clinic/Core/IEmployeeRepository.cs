@@ -1,4 +1,5 @@
 ﻿using Clinic.Models;
+using Clinic.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace Clinic.Core
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeAccountRepository
     {
-        Task<QueryResult<Employee>> getEmployees(EmployeeQuery filter);
-        Task<Employee> GetEmployee(int id, bool includeRelated = true);
-        void Add(Employee employee);
-        void Update(Employee employee);
-        void Remove(Employee employee);
-        
+        EmployeeAccount Authenticate(string email, string password);
+        EmployeeAccount Create(EmployeeAccount employeeAccount, string password);
+        void Delete(int id);
     }
 }

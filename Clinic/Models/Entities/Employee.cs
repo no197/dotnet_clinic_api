@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Clinic.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Clinic.Models
@@ -12,7 +14,7 @@ namespace Clinic.Models
 
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string FullName { get; set; }
 
         [Required]
         [StringLength(4)]
@@ -30,5 +32,7 @@ namespace Clinic.Models
         public string Position { get; set; }
  
         public DateTime CreatedDate { get; set; }
+
+        public EmployeeAccount employeeAccount { get; set; }
     }
 }
