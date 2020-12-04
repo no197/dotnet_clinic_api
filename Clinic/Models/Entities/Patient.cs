@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Clinic.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,5 +31,7 @@ namespace Clinic.Models
         public string PhoneNumber { get; set; }
  
         public DateTime CreatedDate { get; set; }
+
+        public ICollection<Appointment> Appointments { get; set; }
     }
 }

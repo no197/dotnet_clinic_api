@@ -1,17 +1,14 @@
-﻿using Clinic.Models.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Clinic.Models
+namespace Clinic.Dtos
 {
-    public class Employee
+    public class PatientDto
     {
-        public int EmployeeId { get; set; }
-
+        public int PatientId { get; set; }
         [Required]
         [StringLength(50)]
         public string FullName { get; set; }
@@ -19,7 +16,7 @@ namespace Clinic.Models
         [Required]
         [StringLength(4)]
         public string Gender { get; set; }
-        
+
         [Required]
         public DateTime DateOfBirth { get; set; }
 
@@ -28,12 +25,7 @@ namespace Clinic.Models
         public string Address { get; set; }
 
         [Required]
-        [StringLength(20)]
-        public string Position { get; set; }
- 
-        public DateTime CreatedDate { get; set; }
-
-        public EmployeeAccount employeeAccount { get; set; }
-
+        [StringLength(15)]
+        public string PhoneNumber { get; set; }
     }
 }

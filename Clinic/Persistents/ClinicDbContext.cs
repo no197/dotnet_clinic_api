@@ -18,6 +18,11 @@ namespace Clinic.Persistents
 
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Employee> Employees { get; set; }
+
+        public DbSet<Appointment> Appointments { get; set; }
+
+        public DbSet<Medicine> Medicines { get; set; }
         public DbSet<EmployeeAccount> EmployeeAcounts { get; set; }
+       
     }
 }

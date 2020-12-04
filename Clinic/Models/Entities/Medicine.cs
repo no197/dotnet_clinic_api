@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Clinic.Dtos
+namespace Clinic.Models.Entities
 {
-    public class MedicineDto
+    public class Medicine
     {
         public int MedicineId { get; set; }
 
@@ -18,12 +18,13 @@ namespace Clinic.Dtos
         [StringLength(20)]
         public string Unit { get; set; }
 
-        [Required]
-        [Range(0, Int32.MaxValue)]
-        public int Price { get; set; }
 
         [Required]
         [Range(0, Int32.MaxValue)]
         public int Quantity { get; set; }
+
+        [Required]
+        [Range(0, Int32.MaxValue)]
+        public int Price { get; set; }
     }
 }

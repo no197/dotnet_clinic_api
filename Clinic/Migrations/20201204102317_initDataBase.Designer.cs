@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinic.Migrations
 {
     [DbContext(typeof(ClinicDbContext))]
-    [Migration("20201201050149_Initial")]
-    partial class Initial
+    [Migration("20201204102317_initDataBase")]
+    partial class initDataBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,6 +56,30 @@ namespace Clinic.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("Clinic.Models.Entities.Appointment", b =>
+                {
+                    b.Property<int>("AppointmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfAppointment")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.HasKey("AppointmentId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Appointments");
+                });
+
             modelBuilder.Entity("Clinic.Models.Entities.EmployeeAccount", b =>
                 {
                     b.Property<int>("Id")
@@ -83,6 +107,33 @@ namespace Clinic.Migrations
                         .IsUnique();
 
                     b.ToTable("EmployeeAcounts");
+                });
+
+            modelBuilder.Entity("Clinic.Models.Entities.Medicine", b =>
+                {
+                    b.Property<int>("MedicineId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("MedicineName")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasMaxLength(20);
+
+                    b.HasKey("MedicineId");
+
+                    b.ToTable("Medicines");
                 });
 
             modelBuilder.Entity("Clinic.Models.Patient", b =>
@@ -120,6 +171,15 @@ namespace Clinic.Migrations
                     b.HasKey("PatientId");
 
                     b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("Clinic.Models.Entities.Appointment", b =>
+                {
+                    b.HasOne("Clinic.Models.Patient", "Patient")
+                        .WithMany("Appointments")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Clinic.Models.Entities.EmployeeAccount", b =>

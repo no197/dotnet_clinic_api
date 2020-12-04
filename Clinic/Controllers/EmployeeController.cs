@@ -2,7 +2,9 @@
 using Clinic.Core;
 using Clinic.Dtos;
 using Clinic.Models;
+using Clinic.Models.Entities;
 using Clinic.Persistents;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,8 +15,10 @@ using System.Threading.Tasks;
 
 namespace Clinic.Controllers
 {
+
     [ApiController]
     [Route("/api/employees")]
+    [Authorize(Roles = Role.Admin)]
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeRepository repository;

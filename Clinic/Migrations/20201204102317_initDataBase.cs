@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Clinic.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initDataBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,6 +24,22 @@ namespace Clinic.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.EmployeeId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Medicines",
+                columns: table => new
+                {
+                    MedicineId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    MedicineName = table.Column<string>(maxLength: 50, nullable: false),
+                    Unit = table.Column<string>(maxLength: 20, nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    Price = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medicines", x => x.MedicineId);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,6 +83,32 @@ namespace Clinic.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    AppointmentId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    DateOfAppointment = table.Column<DateTime>(nullable: false),
+                    PatientId = table.Column<int>(nullable: false),
+                    Status = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.AppointmentId);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "PatientId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_PatientId",
+                table: "Appointments",
+                column: "PatientId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeeAcounts_EmployeeId",
                 table: "EmployeeAcounts",
@@ -77,7 +119,13 @@ namespace Clinic.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Appointments");
+
+            migrationBuilder.DropTable(
                 name: "EmployeeAcounts");
+
+            migrationBuilder.DropTable(
+                name: "Medicines");
 
             migrationBuilder.DropTable(
                 name: "Patients");

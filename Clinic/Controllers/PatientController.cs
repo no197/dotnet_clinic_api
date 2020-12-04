@@ -2,7 +2,9 @@
 using Clinic.Core;
 using Clinic.Dtos;
 using Clinic.Models;
+using Clinic.Models.Entities;
 using Clinic.Persistents;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Clinic.Controllers
 {
+    [Authorize(Roles = Role.Admin + "," + Role.Employee)]
     [ApiController]
     [Route("/api/patients")]
     public class PatientController : ControllerBase
@@ -22,6 +25,7 @@ namespace Clinic.Controllers
         private readonly IMapper mapper;
 
 
+       
         public PatientController(IPatientRepository patientRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.repository = patientRepository;
