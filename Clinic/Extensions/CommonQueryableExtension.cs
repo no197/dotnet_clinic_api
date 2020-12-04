@@ -25,7 +25,7 @@ namespace Clinic.Extensions
                 queryObj.Page = 1;
 
             if (queryObj.PageSize <= 0)
-                queryObj.PageSize = 10;
+                queryObj.PageSize = 100;
 
             return query.Skip((queryObj.Page - 1) * queryObj.PageSize).Take(queryObj.PageSize);
         }
