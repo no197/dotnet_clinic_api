@@ -45,6 +45,7 @@ namespace Clinic
             services.AddScoped<IEmployeeAccountRepository, EmployeeAccountRepository>();
             services.AddScoped<IMedicineRepository, MedicineRepository>();
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+            services.AddScoped<IExaminationRepository, ExaminationRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(typeof(MappingProflie).Assembly);

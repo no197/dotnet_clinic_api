@@ -25,12 +25,16 @@ namespace Clinic.Mapping
 
             CreateMap<Appointment, AppointmentDto>()
                .ForMember(appDto => appDto.PatientName, opt => opt.MapFrom(app => app.Patient.FullName));
+            //không chắc là cần :))))
+            CreateMap<Appointment, AppointmentSaveDto>();
 
             //Create<DTO, Entity>
             CreateMap<PatientDto, Patient>();
             CreateMap<EmployeeDto, Employee>();
             CreateMap<MedicineDto, Medicine>();
             CreateMap<RegisterDto, EmployeeAccount>();
+
+            CreateMap<AppointmentSaveDto, Appointment>();
         }
     }
 }

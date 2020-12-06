@@ -56,12 +56,12 @@ namespace Clinic.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAppointment(AppointmentDto AppointmentDto)
+        public async Task<IActionResult> CreateAppointment(AppointmentSaveDto appointmentDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var Appointment = mapper.Map<AppointmentDto, Appointment>(AppointmentDto);
+            var Appointment = mapper.Map<AppointmentSaveDto, Appointment>(appointmentDto);
 
             repository.Add(Appointment);
             await unitOfWork.CompleteAsync();
@@ -73,8 +73,9 @@ namespace Clinic.Controllers
             return CreatedAtAction(nameof(GetAppointment), new { id = result.AppointmentId }, result);
         }
 
+        //Update status apointment
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVehicle(int id, AppointmentDto AppointmentDto)
+        public async Task<IActionResult> UpdateAppointment(int id, AppointmentSaveDto appointmentDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -84,7 +85,7 @@ namespace Clinic.Controllers
             if (Appointment == null)
                 return NotFound();
 
-            mapper.Map<AppointmentDto, Appointment>(AppointmentDto, Appointment);
+            mapper.Map<AppointmentSaveDto, Appointment>(appointmentDto, Appointment);
 
             await unitOfWork.CompleteAsync();
 

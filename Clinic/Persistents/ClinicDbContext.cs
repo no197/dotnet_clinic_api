@@ -15,13 +15,17 @@ namespace Clinic.Persistents
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PrescriptionDetail>().HasKey(pre => new { pre.ExaminationId, pre.MedicineId });
+        }
 
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Employee> Employees { get; set; }
-
         public DbSet<Appointment> Appointments { get; set; }
-
+        public DbSet<Examination> Examinations { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
+        public DbSet<PrescriptionDetail> prescriptionDetails { get; set; }
         public DbSet<EmployeeAccount> EmployeeAcounts { get; set; }
        
     }

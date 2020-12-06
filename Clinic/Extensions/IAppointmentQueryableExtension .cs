@@ -14,15 +14,15 @@ namespace Clinic.Extensions
 
         public static IQueryable<Appointment> ApplyFiltering(this IQueryable<Appointment> query, AppointmentQuery queryObj)
         {
+            query = query.Include(Appointment => Appointment.Patient);
+
             if (!String.IsNullOrEmpty(queryObj.PatientName))
             {
-                query = query
-                   .Include(Appointment => Appointment.Patient)
-                   .Where(appointment => appointment.Patient.FullName.Equals(queryObj.PatientName));
+                query = query.Where(appointment => appointment.Patient.FullName.Equals(queryObj.PatientName));
             }
                
 
-            return query.Include(Appointment => Appointment.Patient);
+            return query;
         }
 
     }

@@ -26,5 +26,7 @@ namespace Clinic.Models.Entities
         [Required]
         [Range(0, Int32.MaxValue)]
         public int Price { get; set; }
+
+        public IList<PrescriptionDetail> PrescriptionDetails { get; set; }
     }
 }
