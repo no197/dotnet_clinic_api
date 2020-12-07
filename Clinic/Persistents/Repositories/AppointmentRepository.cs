@@ -11,27 +11,27 @@ using System.Threading.Tasks;
 
 namespace Clinic.Persistents
 {
-    public class ExaminationRepository : IExaminationRepository
+    public class AppointmentRepository : IAppointmentRepository
     {
         private readonly ClinicDbContext context;
 
-        public ExaminationRepository(ClinicDbContext context)
+        public AppointmentRepository(ClinicDbContext context)
         {
             this.context = context;
         }
 
 
-        public async Task<QueryResult<Examination>> getExaminations(ExaminationQuery queryObj)
+        public async Task<QueryResult<Appointment>> getAppointments(AppointmentQuery queryObj)
         {
-            var result = new QueryResult<Examination>();
+            var result = new QueryResult<Appointment>();
 
-            var query = context.Examinations.AsQueryable();
+            var query = context.Appointments.AsQueryable();
 
             query = query.ApplyFiltering(queryObj);
 
-            var columnsMap = new Dictionary<string, Expression<Func<Examination, object>>>()
+            var columnsMap = new Dictionary<string, Expression<Func<Appointment, object>>>()
             {
-                ["PatientName"] = Examination => Examination.Appointment.Patient.FullName
+                ["PatientName"] = Appointment => Appointment.Patient.FullName
             };
             query = query.ApplyOrdering(queryObj, columnsMap);
 
@@ -45,36 +45,34 @@ namespace Clinic.Persistents
         }
 
 
-        public async Task<Examination> GetExamination(int id, bool includeRelated = true)
+        public async Task<Appointment> GetAppointment(int id, bool includeRelated = true)
         {
           if(!includeRelated)
             {
-                return await context.Examinations.FindAsync(id);
+                return await context.Appointments.FindAsync(id);
             }
 
-            return await context.Examinations
-                .Include(exam => exam.Employee)
-                .Include(exam => exam.Appointment)
-                .ThenInclude(a => a.Patient)
-                .SingleOrDefaultAsync(a => a.ExaminationId == id);
+            return await context.Appointments
+                .Include(a => a.Patient)
+                .SingleOrDefaultAsync(a => a.AppointmentId == id);
 
         }
 
 
-        public void Add(Examination examination)
+        public void Add(Appointment appointment)
         {
-            context.Examinations.Add(examination);
+            context.Appointments.Add(appointment);
         }
 
 
-        public void Update(Examination examination)
+        public void Update(Appointment appointment)
         {
-            context.Examinations.Update(examination);
+            context.Appointments.Update(appointment);
         }
 
-        public void Remove(Examination Examination)
+        public void Remove(Appointment appointment)
         {
-            context.Examinations.Remove(Examination);
+            context.Appointments.Remove(appointment);
         }
 
     }

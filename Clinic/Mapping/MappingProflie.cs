@@ -25,16 +25,34 @@ namespace Clinic.Mapping
 
             CreateMap<Appointment, AppointmentDto>()
                .ForMember(appDto => appDto.PatientName, opt => opt.MapFrom(app => app.Patient.FullName));
+
+            CreateMap<Examination, ExaminationDto>()
+                .ForMember(examDto => examDto.EmployeeName, opt => opt.MapFrom(exam => exam.Employee.FullName))
+                .ForMember(examDto => examDto.PatientName, opt => opt.MapFrom(exam => exam.Appointment.Patient.FullName));
+
+            CreateMap<PrescriptionDetail, PrescriptionDetailDto>()
+                .ForMember(preDto => preDto.MedicineName, opt => opt.MapFrom(pre => pre.Medicine.MedicineName));
+
             //không chắc là cần :))))
             CreateMap<Appointment, AppointmentSaveDto>();
+           
 
             //Create<DTO, Entity>
             CreateMap<PatientDto, Patient>();
             CreateMap<EmployeeDto, Employee>();
             CreateMap<MedicineDto, Medicine>();
             CreateMap<RegisterDto, EmployeeAccount>();
-
             CreateMap<AppointmentSaveDto, Appointment>();
+
+            CreateMap<ExaminationSaveDto, Examination>()
+                .ForMember(exam => exam.PrescriptionDetails, opt => opt.Ignore());
+
+            CreateMap<PrescriptionDetailSaveDto, PrescriptionDetail>()
+                .ForMember(pre => pre.ExaminationId, opt => opt.Ignore())
+                .ForMember(pre => pre.Examination, opt => opt.Ignore());
+           
+
+
         }
     }
 }

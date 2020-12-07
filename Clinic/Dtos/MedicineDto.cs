@@ -6,26 +6,24 @@ using System.Threading.Tasks;
 
 namespace Clinic.Dtos
 {
-    public class PatientDto
+    public class MedicineDto
     {
-        public int PatientId { get; set; }
+        public int MedicineId { get; set; }
+
         [Required]
         [StringLength(50)]
-        public string FullName { get; set; }
+        public string MedicineName { get; set; }
 
         [Required]
-        [StringLength(4)]
-        public string Gender { get; set; }
+        [StringLength(20)]
+        public string Unit { get; set; }
 
         [Required]
-        public DateTime DateOfBirth { get; set; }
+        [Range(0, Int32.MaxValue)]
+        public int Price { get; set; }
 
         [Required]
-        [StringLength(100)]
-        public string Address { get; set; }
-
-        [Required]
-        [StringLength(15)]
-        public string PhoneNumber { get; set; }
+        [Range(0, Int32.MaxValue)]
+        public int Quantity { get; set; }
     }
 }
