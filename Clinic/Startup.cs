@@ -46,6 +46,7 @@ namespace Clinic
             services.AddScoped<IMedicineRepository, MedicineRepository>();
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IExaminationRepository, ExaminationRepository>();
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<IPrescriptionDetailRepository, PrescriptionDetailRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

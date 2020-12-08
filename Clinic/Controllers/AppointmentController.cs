@@ -61,14 +61,18 @@ namespace Clinic.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var Appointment = mapper.Map<AppointmentSaveDto, Appointment>(appointmentDto);
+            var appointment = mapper.Map<AppointmentSaveDto, Appointment>(appointmentDto);
+            if(String.IsNullOrEmpty(appointment.Status))
+            {
+                appointment.Status = "Đang chờ";
+            }
 
-            repository.Add(Appointment);
+            repository.Add(appointment);
             await unitOfWork.CompleteAsync();
 
-            Appointment = await repository.GetAppointment(Appointment.AppointmentId);
+            appointment = await repository.GetAppointment(appointment.AppointmentId);
 
-            var result = mapper.Map<Appointment, AppointmentDto>(Appointment);
+            var result = mapper.Map<Appointment, AppointmentDto>(appointment);
 
             return CreatedAtAction(nameof(GetAppointment), new { id = result.AppointmentId }, result);
         }

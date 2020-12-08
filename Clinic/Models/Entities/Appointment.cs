@@ -26,5 +26,7 @@ namespace Clinic.Models.Entities
         [StringLength(50)]
         public string Status { get; set; }
 
+        public Examination Examination { get; set; }
+
     }
 }

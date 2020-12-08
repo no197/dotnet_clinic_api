@@ -130,7 +130,8 @@ namespace Clinic.Migrations
 
                     b.HasKey("ExaminationId");
 
-                    b.HasIndex("AppointmentId");
+                    b.HasIndex("AppointmentId")
+                        .IsUnique();
 
                     b.HasIndex("EmployeeId");
 
@@ -175,14 +176,46 @@ namespace Clinic.Migrations
                     b.Property<string>("Instruction")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<int>("MedicinePrice")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<long>("TotalPrice")
+                        .HasColumnType("bigint");
 
                     b.HasKey("ExaminationId", "MedicineId");
 
                     b.HasIndex("MedicineId");
 
-                    b.ToTable("prescriptionDetails");
+                    b.ToTable("PrescriptionDetails");
+                });
+
+            modelBuilder.Entity("Clinic.Models.Invoice", b =>
+                {
+                    b.Property<int>("InvoiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ExaminationId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("Price")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("InvoiceId");
+
+                    b.HasIndex("ExaminationId")
+                        .IsUnique();
+
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("Clinic.Models.Patient", b =>
@@ -243,8 +276,8 @@ namespace Clinic.Migrations
             modelBuilder.Entity("Clinic.Models.Entities.Examination", b =>
                 {
                     b.HasOne("Clinic.Models.Entities.Appointment", "Appointment")
-                        .WithMany()
-                        .HasForeignKey("AppointmentId")
+                        .WithOne("Examination")
+                        .HasForeignKey("Clinic.Models.Entities.Examination", "AppointmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -266,6 +299,15 @@ namespace Clinic.Migrations
                     b.HasOne("Clinic.Models.Entities.Medicine", "Medicine")
                         .WithMany("PrescriptionDetails")
                         .HasForeignKey("MedicineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Clinic.Models.Invoice", b =>
+                {
+                    b.HasOne("Clinic.Models.Entities.Examination", "Examination")
+                        .WithOne("Invoice")
+                        .HasForeignKey("Clinic.Models.Invoice", "ExaminationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

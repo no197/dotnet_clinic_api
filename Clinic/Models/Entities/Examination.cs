@@ -22,6 +22,7 @@ namespace Clinic.Models.Entities
 
         public DateTime  CreatedDate { set; get; }
 
+        public Invoice Invoice { get; set; }
         public IList<PrescriptionDetail> PrescriptionDetails { get; set; }
     }
 }

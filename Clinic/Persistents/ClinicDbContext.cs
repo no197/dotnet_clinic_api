@@ -26,6 +26,7 @@ namespace Clinic.Persistents
         public DbSet<Examination> Examinations { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
         public DbSet<PrescriptionDetail> PrescriptionDetails { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
         public DbSet<EmployeeAccount> EmployeeAcounts { get; set; }
        
     }

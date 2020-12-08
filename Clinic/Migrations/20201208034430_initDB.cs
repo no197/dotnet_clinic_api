@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Clinic.Migrations
 {
-    public partial class initDataBase : Migration
+    public partial class initDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -104,6 +104,85 @@ namespace Clinic.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Examinations",
+                columns: table => new
+                {
+                    ExaminationId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    AppointmentId = table.Column<int>(nullable: false),
+                    Diagnose = table.Column<string>(nullable: true),
+                    Symptom = table.Column<string>(nullable: true),
+                    EmployeeId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Examinations", x => x.ExaminationId);
+                    table.ForeignKey(
+                        name: "FK_Examinations_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointments",
+                        principalColumn: "AppointmentId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Examinations_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Invoices",
+                columns: table => new
+                {
+                    InvoiceId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ExaminationId = table.Column<int>(nullable: false),
+                    Price = table.Column<long>(nullable: false),
+                    Status = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoices", x => x.InvoiceId);
+                    table.ForeignKey(
+                        name: "FK_Invoices_Examinations_ExaminationId",
+                        column: x => x.ExaminationId,
+                        principalTable: "Examinations",
+                        principalColumn: "ExaminationId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PrescriptionDetails",
+                columns: table => new
+                {
+                    ExaminationId = table.Column<int>(nullable: false),
+                    MedicineId = table.Column<int>(nullable: false),
+                    MedicinePrice = table.Column<int>(nullable: false),
+                    TotalPrice = table.Column<long>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    Instruction = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrescriptionDetails", x => new { x.ExaminationId, x.MedicineId });
+                    table.ForeignKey(
+                        name: "FK_PrescriptionDetails_Examinations_ExaminationId",
+                        column: x => x.ExaminationId,
+                        principalTable: "Examinations",
+                        principalColumn: "ExaminationId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PrescriptionDetails_Medicines_MedicineId",
+                        column: x => x.MedicineId,
+                        principalTable: "Medicines",
+                        principalColumn: "MedicineId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_PatientId",
                 table: "Appointments",
@@ -114,24 +193,55 @@ namespace Clinic.Migrations
                 table: "EmployeeAcounts",
                 column: "EmployeeId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Examinations_AppointmentId",
+                table: "Examinations",
+                column: "AppointmentId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Examinations_EmployeeId",
+                table: "Examinations",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_ExaminationId",
+                table: "Invoices",
+                column: "ExaminationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrescriptionDetails_MedicineId",
+                table: "PrescriptionDetails",
+                column: "MedicineId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Appointments");
+                name: "EmployeeAcounts");
 
             migrationBuilder.DropTable(
-                name: "EmployeeAcounts");
+                name: "Invoices");
+
+            migrationBuilder.DropTable(
+                name: "PrescriptionDetails");
+
+            migrationBuilder.DropTable(
+                name: "Examinations");
 
             migrationBuilder.DropTable(
                 name: "Medicines");
 
             migrationBuilder.DropTable(
-                name: "Patients");
+                name: "Appointments");
 
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Patients");
         }
     }
 }

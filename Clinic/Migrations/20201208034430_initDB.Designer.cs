@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinic.Migrations
 {
     [DbContext(typeof(ClinicDbContext))]
-    [Migration("20201204102317_initDataBase")]
-    partial class initDataBase
+    [Migration("20201208034430_initDB")]
+    partial class initDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,6 +109,37 @@ namespace Clinic.Migrations
                     b.ToTable("EmployeeAcounts");
                 });
 
+            modelBuilder.Entity("Clinic.Models.Entities.Examination", b =>
+                {
+                    b.Property<int>("ExaminationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Diagnose")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Symptom")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("ExaminationId");
+
+                    b.HasIndex("AppointmentId")
+                        .IsUnique();
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Examinations");
+                });
+
             modelBuilder.Entity("Clinic.Models.Entities.Medicine", b =>
                 {
                     b.Property<int>("MedicineId")
@@ -134,6 +165,59 @@ namespace Clinic.Migrations
                     b.HasKey("MedicineId");
 
                     b.ToTable("Medicines");
+                });
+
+            modelBuilder.Entity("Clinic.Models.Entities.PrescriptionDetail", b =>
+                {
+                    b.Property<int>("ExaminationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MedicineId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Instruction")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("MedicinePrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<long>("TotalPrice")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ExaminationId", "MedicineId");
+
+                    b.HasIndex("MedicineId");
+
+                    b.ToTable("PrescriptionDetails");
+                });
+
+            modelBuilder.Entity("Clinic.Models.Invoice", b =>
+                {
+                    b.Property<int>("InvoiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ExaminationId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("Price")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("InvoiceId");
+
+                    b.HasIndex("ExaminationId")
+                        .IsUnique();
+
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("Clinic.Models.Patient", b =>
@@ -187,6 +271,45 @@ namespace Clinic.Migrations
                     b.HasOne("Clinic.Models.Employee", "Employee")
                         .WithOne("employeeAccount")
                         .HasForeignKey("Clinic.Models.Entities.EmployeeAccount", "EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Clinic.Models.Entities.Examination", b =>
+                {
+                    b.HasOne("Clinic.Models.Entities.Appointment", "Appointment")
+                        .WithOne("Examination")
+                        .HasForeignKey("Clinic.Models.Entities.Examination", "AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Clinic.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Clinic.Models.Entities.PrescriptionDetail", b =>
+                {
+                    b.HasOne("Clinic.Models.Entities.Examination", "Examination")
+                        .WithMany("PrescriptionDetails")
+                        .HasForeignKey("ExaminationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Clinic.Models.Entities.Medicine", "Medicine")
+                        .WithMany("PrescriptionDetails")
+                        .HasForeignKey("MedicineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Clinic.Models.Invoice", b =>
+                {
+                    b.HasOne("Clinic.Models.Entities.Examination", "Examination")
+                        .WithOne("Invoice")
+                        .HasForeignKey("Clinic.Models.Invoice", "ExaminationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
