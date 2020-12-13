@@ -20,6 +20,11 @@ namespace Clinic.Extensions
             {
                 query = query.Where(appointment => appointment.Patient.FullName.Equals(queryObj.PatientName));
             }
+
+            if(!String.IsNullOrEmpty(queryObj.Status))
+            {
+                query = query.Where(appointment => appointment.Status.Equals(queryObj.Status));
+            }
                
 
             return query;

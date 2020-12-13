@@ -64,7 +64,7 @@ namespace Clinic.Controllers
             if (Examination == null)
                 return NotFound();
 
-            var ExaminationResult = mapper.Map<Examination, ExaminationDto>(Examination);
+            var ExaminationResult = mapper.Map<Examination, ExaminationDetailDto>(Examination);
 
             return Ok(ExaminationResult);
         }
@@ -78,6 +78,7 @@ namespace Clinic.Controllers
 
             //Mapping exam from DTO -> Entity
             var examination = mapper.Map<ExaminationSaveDto, Examination>(examinationDto);
+            examination.CreatedDate =  DateTime.Now;
             examinationRepository.Add(examination);
 
             //Create invoice for examination

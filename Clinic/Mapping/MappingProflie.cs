@@ -30,6 +30,11 @@ namespace Clinic.Mapping
                 .ForMember(examDto => examDto.EmployeeName, opt => opt.MapFrom(exam => exam.Employee.FullName))
                 .ForMember(examDto => examDto.PatientName, opt => opt.MapFrom(exam => exam.Appointment.Patient.FullName));
 
+
+            CreateMap<Examination, ExaminationDetailDto>()
+               .ForMember(examDto => examDto.EmployeeName, opt => opt.MapFrom(exam => exam.Employee.FullName))
+               .ForMember(examDto => examDto.Patient, opt => opt.MapFrom(exam => exam.Appointment.Patient));
+
             CreateMap<PrescriptionDetail, PrescriptionDetailDto>()
                 .ForMember(preDto => preDto.MedicineName, opt => opt.MapFrom(pre => pre.Medicine.MedicineName));
 
