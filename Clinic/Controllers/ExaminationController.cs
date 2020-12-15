@@ -113,6 +113,8 @@ namespace Clinic.Controllers
                 // Cal Price for Invoice
                 sumMedicinePrice += prescriptionDetail.TotalPrice;
 
+                //Decrease quantiy medicines in stock
+                medicine.Quantity = medicine.Quantity - prescriptionDetail.Quantity;
             }
 
 

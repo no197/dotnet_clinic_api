@@ -1,4 +1,5 @@
 ﻿using Clinic.Core;
+using Clinic.Dtos;
 using Clinic.Extensions;
 using Clinic.Models;
 using Clinic.Models.Entities;
@@ -68,5 +69,52 @@ namespace Clinic.Persistents
             context.Medicines.Remove(medicine);
         }
 
+        public async Task<QueryResult<MedicineStatDto>> TopFiveMedicineUsed()
+        {
+            var result = new QueryResult<MedicineStatDto>();
+
+            var topMedicines = await (from pre in context.PrescriptionDetails
+                               join medicine in context.Medicines
+                                    on pre.MedicineId equals medicine.MedicineId
+                               group pre by new { pre.MedicineId, medicine.MedicineName, medicine.Unit } into g
+                               orderby g.Count() descending
+                               select new MedicineStatDto {
+                                   MedicineName = g.Key.MedicineName, 
+                                   QtyUsed = g.Sum(pre => pre.Quantity), 
+                                   TimesUsed = g.Count(),
+                                   Unit =  g.Key.Unit
+                               })
+                               .Take(5)
+                               .ToListAsync();
+
+            result.TotalItems = 5;
+            result.Items = topMedicines;
+            return result;
+        }
+
+        public async Task<QueryResult<MedicineStatDto>> TopFiveMedicineQuantityUsed()
+        {
+            var result = new QueryResult<MedicineStatDto>();
+
+            var topMedicines = await(from pre in context.PrescriptionDetails
+                                     join medicine in context.Medicines
+                                          on pre.MedicineId equals medicine.MedicineId
+                                     group pre by new { pre.MedicineId, medicine.MedicineName, medicine.Unit } into g
+                                     orderby g.Sum(pre => pre.Quantity) descending
+                                     select new MedicineStatDto
+                                     {
+                                         MedicineName = g.Key.MedicineName,
+                                         QtyUsed = g.Sum(pre => pre.Quantity),
+                                         TimesUsed = g.Count(),
+                                         Unit = g.Key.Unit
+                                     })
+                               .Take(5)
+                               .ToListAsync();
+
+            result.TotalItems = 5;
+            result.Items = topMedicines;
+            return result;
+        }
+    
     }
 }

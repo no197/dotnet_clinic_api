@@ -35,11 +35,11 @@ namespace Clinic.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<QueryResultDto<InvoiceDetailDto>>> GetInvoices([FromQuery]  InvoiceQuery InvoiceQuery)
+        public async Task<ActionResult<QueryResultDto<InvoiceDto>>> GetInvoices([FromQuery]  InvoiceQuery InvoiceQuery)
         {
             var filter = await repository.GetInvoices(InvoiceQuery);
 
-            return Ok(mapper.Map<QueryResult<Invoice>, QueryResultDto<InvoiceDetailDto>>(filter));
+            return Ok(mapper.Map<QueryResult<Invoice>, QueryResultDto<InvoiceDto>>(filter));
         }
 
         [HttpGet("{id}")]
@@ -53,6 +53,31 @@ namespace Clinic.Controllers
             var InvoiceResult = mapper.Map<Invoice, InvoiceDetailDto>(Invoice);
 
             return Ok(InvoiceResult);
+        }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateInvoice(int id, InvoiceDto invoiceDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var invoice = await repository.GetInvoice(id);
+
+            if (invoice == null)
+                return NotFound();
+
+            //mapper.Map<InvoiceDto, Invoice>(invoiceDto, invoice);
+
+            if (invoiceDto.Status == "Đã thanh toán")
+                invoice.Status = invoiceDto.Status;
+
+            await unitOfWork.CompleteAsync();
+
+            invoice = await repository.GetInvoice(invoice.InvoiceId);
+            var result = mapper.Map<Invoice, InvoiceDto>(invoice);
+
+            return Ok(result);
         }
 
 

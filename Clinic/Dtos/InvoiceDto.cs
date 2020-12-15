@@ -5,19 +5,14 @@ using System.Threading.Tasks;
 
 namespace Clinic.Dtos
 {
-    public class InvoiceDetailDto
+    public class InvoiceDto
     {
         public int InvoiceId { get; set; }
 
-        public int ExaminationId { get; set; }
-
-        public PatientDto Patient{ get; set; }
-
-        public string EmployeeName { get; set; }
+        public string PatientName { get; set; }
 
         public long Price { get; set; }
 
-        public List<PrescriptionDetailInVoiceDto> PrescriptionDetailsPrice { get; set; }
 
         public string Status { get; set; }
 

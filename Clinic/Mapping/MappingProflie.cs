@@ -41,9 +41,13 @@ namespace Clinic.Mapping
             CreateMap<PrescriptionDetail, PrescriptionDetailInVoiceDto>()
                 .ForMember(preDto => preDto.MedicineName, opt => opt.MapFrom(pre => pre.Medicine.MedicineName));
 
+            CreateMap<Invoice, InvoiceDto>()
+                .ForMember(invDto => invDto.PatientName, opt => opt.MapFrom(inv => inv.Examination.Appointment.Patient.FullName));
+               
+
             CreateMap<Invoice, InvoiceDetailDto>()
                 .ForMember(invDto => invDto.PrescriptionDetailsPrice, opt => opt.MapFrom(inv => inv.Examination.PrescriptionDetails))
-                .ForMember(invDto => invDto.PatientName, opt => opt.MapFrom(inv => inv.Examination.Appointment.Patient.FullName))
+                .ForMember(invDto => invDto.Patient, opt => opt.MapFrom(inv => inv.Examination.Appointment.Patient))
                 .ForMember(invDto => invDto.EmployeeName, opt => opt.MapFrom(inv => inv.Examination.Employee.FullName));
             //không chắc là cần :))))
             CreateMap<Appointment, AppointmentSaveDto>();

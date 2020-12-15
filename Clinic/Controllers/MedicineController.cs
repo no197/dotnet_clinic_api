@@ -41,6 +41,25 @@ namespace Clinic.Controllers
             return Ok(mapper.Map<QueryResult<Medicine>, QueryResultDto<MedicineDto>>(filter));
         }
 
+
+
+        [HttpGet("topFiveUsed")]
+        public async Task<ActionResult<QueryResultDto<MedicineStatDto>>> GetTopFiveMedicinesUsed()
+        {
+            var topTimesUsedMedicine = await repository.TopFiveMedicineUsed();
+
+            return Ok(topTimesUsedMedicine);
+        }
+
+        [HttpGet("topFiveQuantityUsed")]
+        public async Task<ActionResult<QueryResultDto<MedicineStatDto>>> GetTopFiveQuantityMedicinesUsed()
+        {
+            var topQtyUsedMedicine = await repository.TopFiveMedicineQuantityUsed();
+
+            return Ok(topQtyUsedMedicine);
+        }
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMedicine(int id)
         {
@@ -53,6 +72,10 @@ namespace Clinic.Controllers
 
             return Ok(MedicineResult);
         }
+
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> CreateMedicine(MedicineDto medicineDto)
