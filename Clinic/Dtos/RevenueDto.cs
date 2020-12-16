@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Clinic.Dtos
 {
-    public class MonthlyRevenueDto
+    public class RevenueDto
     {
         public DateTime Date { get; set; }
         public long Revenue { get; set; }

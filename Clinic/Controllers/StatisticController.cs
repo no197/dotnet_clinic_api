@@ -42,7 +42,7 @@ namespace Clinic.Controllers
         }
 
         [HttpGet("monthlyRevenue")]
-        public async Task<ActionResult<QueryResultDto<MonthlyRevenueDto>>> GetMonthlyRevenue([FromQuery] MonthYearQuery query)
+        public async Task<ActionResult<QueryResultDto<RevenueDto>>> GetMonthlyRevenue([FromQuery] MonthYearQuery query)
         {
             var filter = await repository.GetMonthlyRevenue(query);
 
@@ -61,6 +61,14 @@ namespace Clinic.Controllers
         public async Task<ActionResult<QueryResultDto<MedicineStatDto>>> GetMonthlyPatients([FromQuery] MonthYearQuery query)
         {
             var filter = await repository.GetMonthlyPatients(query);
+
+            return Ok(filter);
+        }
+
+        [HttpGet("revenueInRange")]
+        public async Task<ActionResult<QueryResultDto<MedicineStatDto>>> GetRevenueInRange([FromQuery] DateRangeQuery query)
+        {
+            var filter = await repository.GetRevenueInRange(query);
 
             return Ok(filter);
         }

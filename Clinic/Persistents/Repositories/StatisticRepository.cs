@@ -112,9 +112,9 @@ namespace Clinic.Persistents
             return result;
         }
 
-        public async Task<QueryResult<MonthlyRevenueDto>> GetMonthlyRevenue(MonthYearQuery monthYearQuery)
+        public async Task<QueryResult<RevenueDto>> GetMonthlyRevenue(MonthYearQuery monthYearQuery)
         {
-            var result = new QueryResult<MonthlyRevenueDto>();
+            var result = new QueryResult<RevenueDto>();
             int month = monthYearQuery.Month;
             int year = monthYearQuery.Year;
 
@@ -126,11 +126,41 @@ namespace Clinic.Persistents
                          where iv.CreatedDate.Month == month && iv.CreatedDate.Year == year
                          group iv by new { Date = iv.CreatedDate.Date } into g
                          orderby g.Key.Date
-                         select new MonthlyRevenueDto
+                         select new RevenueDto
                          {
                              Date = g.Key.Date,
                              Revenue = g.Sum(iv => iv.Price),
                              Percent = Math.Round((double)g.Sum(iv => iv.Price) / TotalRevenue * 100 , 2),
+
+                         });
+
+            result.TotalItems = await query.CountAsync();
+
+            result.Items = await query.ToListAsync();
+
+            return result;
+        }
+
+
+        public async Task<QueryResult<RevenueDto>> GetRevenueInRange(DateRangeQuery dateRangeQuery)
+        {
+            var result = new QueryResult<RevenueDto>();
+            DateTime fromDate = dateRangeQuery.FromDate;
+            DateTime toDate = dateRangeQuery.ToDate;
+
+            var TotalRevenue = await context.Invoices
+               .Where(iv => iv.CreatedDate.Date >= fromDate.Date && iv.CreatedDate.Date <= toDate.Date)
+               .SumAsync(iv => iv.Price);
+
+            var query = (from iv in context.Invoices
+                         where iv.CreatedDate.Date >= fromDate.Date && iv.CreatedDate.Date <= toDate.Date
+                         group iv by new { iv.CreatedDate.Date } into g
+                         orderby g.Key.Date
+                         select new RevenueDto
+                         {
+                             Date = g.Key.Date,
+                             Revenue = g.Sum(iv => iv.Price),
+                             Percent = Math.Round((double)g.Sum(iv => iv.Price) / TotalRevenue * 100, 2),
 
                          });
 

@@ -11,8 +11,10 @@ namespace Clinic.Core
     public interface IStatisticRepository
     {
         Task<GeneralStatisticDto> GetGeneralStatistic();
-        Task<QueryResult<MonthlyRevenueDto>> GetMonthlyRevenue(MonthYearQuery query);
+        Task<QueryResult<RevenueDto>> GetMonthlyRevenue(MonthYearQuery query);
         Task<QueryResult<MedicineStatDto>> GetMonthlyMedicine(MonthYearQuery query);
         Task<QueryResult<PatientDto>> GetMonthlyPatients(MonthYearQuery query);
+
+        Task<QueryResult<RevenueDto>> GetRevenueInRange(DateRangeQuery query);
     }
 }
