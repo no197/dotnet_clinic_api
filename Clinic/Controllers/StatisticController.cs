@@ -73,6 +73,22 @@ namespace Clinic.Controllers
             return Ok(filter);
         }
 
+        [HttpGet("topFiveUsed")]
+        public async Task<ActionResult<QueryResultDto<MedicineStatDto>>> GetTopFiveMedicinesUsed()
+        {
+            var topTimesUsedMedicine = await repository.TopFiveMedicineUsed();
+
+            return Ok(topTimesUsedMedicine);
+        }
+
+        [HttpGet("topFiveQuantityUsed")]
+        public async Task<ActionResult<QueryResultDto<MedicineStatDto>>> GetTopFiveQuantityMedicinesUsed()
+        {
+            var topQtyUsedMedicine = await repository.TopFiveMedicineQuantityUsed();
+
+            return Ok(topQtyUsedMedicine);
+        }
+
 
     }
 }

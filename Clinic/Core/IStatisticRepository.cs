@@ -16,5 +16,8 @@ namespace Clinic.Core
         Task<QueryResult<PatientDto>> GetMonthlyPatients(MonthYearQuery query);
 
         Task<QueryResult<RevenueDto>> GetRevenueInRange(DateRangeQuery query);
+
+        Task<QueryResult<MedicineStatDto>> TopFiveMedicineUsed();
+        Task<QueryResult<MedicineStatDto>> TopFiveMedicineQuantityUsed();
     }
 }

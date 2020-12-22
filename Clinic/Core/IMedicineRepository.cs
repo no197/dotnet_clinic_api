@@ -13,8 +13,6 @@ namespace Clinic.Core
         Task<QueryResult<Medicine>> getMedicines(MedicineQuery filter);
         Task<Medicine> GetMedicine(int id, bool includeRelated = true);
 
-        Task<QueryResult<MedicineStatDto>> TopFiveMedicineUsed();
-        Task<QueryResult<MedicineStatDto>> TopFiveMedicineQuantityUsed();
         void Add(Medicine medicine);
         void Update(Medicine medicine);
         void Remove(Medicine medicine);
