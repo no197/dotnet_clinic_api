@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Clinic.Controllers
 {
-    [Authorize(Roles = Role.Admin + "," + Role.Employee + "," + Role.Doctor)]
+    [Authorize(Roles = Role.Admin + "," + Role.Employee)]
     [ApiController]
     [Route("/api/invoices")]
     public class InvoiceController : ControllerBase
