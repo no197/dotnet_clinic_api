@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Clinic.Dtos
 {
-    public class PatientDto
+    public class EmployeeDto
     {
-        public int PatientId { get; set; }
+        public int EmployeeId { get; set; }
+
         [Required]
         [StringLength(50)]
         public string FullName { get; set; }
@@ -25,7 +26,7 @@ namespace Clinic.Dtos
         public string Address { get; set; }
 
         [Required]
-        [StringLength(15)]
-        public string PhoneNumber { get; set; }
+        [StringLength(20)]
+        public string Position { get; set; }
     }
 }

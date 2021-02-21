@@ -1,18 +1,20 @@
-﻿using System;
+﻿using Clinic.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Clinic.Models
 {
-    public class Patient
+    public class Employee
     {
-        public int PatientId { get; set; }
+        public int EmployeeId { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string FullName { get; set; }
 
         [Required]
         [StringLength(4)]
@@ -26,9 +28,12 @@ namespace Clinic.Models
         public string Address { get; set; }
 
         [Required]
-        [StringLength(15)]
-        public string PhoneNumber { get; set; }
+        [StringLength(20)]
+        public string Position { get; set; }
  
         public DateTime CreatedDate { get; set; }
+
+        public EmployeeAccount employeeAccount { get; set; }
+
     }
 }

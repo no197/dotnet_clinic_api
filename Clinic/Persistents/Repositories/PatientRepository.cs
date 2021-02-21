@@ -30,7 +30,7 @@ namespace Clinic.Persistents
 
             var columnsMap = new Dictionary<string, Expression<Func<Patient, object>>>()
             {
-                ["Name"] = patient => patient.Name
+                ["Name"] = patient => patient.FullName
             };
             query = query.ApplyOrdering(queryObj, columnsMap);
 
